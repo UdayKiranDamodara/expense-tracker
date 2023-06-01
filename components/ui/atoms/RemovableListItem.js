@@ -23,7 +23,6 @@ const RemovableListItem = ({ item, onDelete, onEdit }) => {
     setIsEdit(true)
   }
   const handleSaveButtonClick = () => {
-    console.log(name)
     Alert.alert(
       'SAVE',
       `Are you sure you want to save: ${name}`,

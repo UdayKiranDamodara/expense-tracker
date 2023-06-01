@@ -5,6 +5,9 @@ import { useState } from 'react'
 
 const CategoriesScreen = () => {
   const [categories, setCategories] = useState(data.categories)
+  const handleAddCategory = (category) => {
+    setCategories((prevState) => [...prevState, category])
+  }
   const handleEditCategory = (category) => {
     setCategories((prevState) => {
       const index = prevState.findIndex((item) => item.id === category.id)
@@ -21,6 +24,7 @@ const CategoriesScreen = () => {
       <DisplayBox
         list={categories}
         addItemText='Add Cateory'
+        onAdd={handleAddCategory}
         onDelete={handleDeleteCategory}
         onEdit={handleEditCategory}
       />

@@ -1,4 +1,9 @@
-import { StyleSheet, View, Dimensions } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  KeyboardAvoidingView,
+} from 'react-native'
 import DisplayBox from '../components/ui/molecules/DisplayBox'
 import { useState } from 'react'
 const { data } = require('../dummyData')
@@ -8,6 +13,12 @@ const height = Dimensions.get('window').height
 const UsersScreen = () => {
   const [users, setUsers] = useState(data.entities.users)
   const [orgs, setOrgs] = useState(data.entities.orgs)
+  const handleAddUser = (user) => {
+    setUsers((prevState) => [...prevState, user])
+  }
+  const handleAddOrg = (org) => {
+    setUsers((prevState) => [...prevState, org])
+  }
   const handleEditUser = (user) => {
     setUsers((prevState) => {
       const index = prevState.findIndex((item) => item.id === user.id)
@@ -39,6 +50,7 @@ const UsersScreen = () => {
           addItemText='Add User'
           onEdit={handleEditUser}
           onDelete={handleDeleteUser}
+          onAdd={handleAddUser}
         />
       </View>
       <View style={styles.item}>
@@ -48,6 +60,7 @@ const UsersScreen = () => {
           addItemText='Add Organisation'
           onEdit={handleEditOrg}
           onDelete={handleDeleteOrg}
+          onAdd={handleAddOrg}
         />
       </View>
     </View>

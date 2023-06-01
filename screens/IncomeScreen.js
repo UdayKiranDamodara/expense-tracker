@@ -16,12 +16,6 @@ const IncomeScreen = ({ navigation, route }) => {
         },
         headerTintColor: 'white',
       })
-      console.log(
-        'Income Screen -----------------------------',
-        navigation.getParent(),
-        navigation.getId(),
-        route
-      )
     }
   }, [isFocused])
   return (

@@ -6,32 +6,6 @@ import { useEffect, useLayoutEffect } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 
 const { data } = require('../dummyData.js')
-// const data = {
-//   users: [],
-//   categories: [],
-//   transactions: {
-//     expense: [
-//       {
-//         id: 'uuid1',
-//         source: 'Swiggy',
-//         category: 'Food',
-//         amount: 1000,
-//         date: Date(),
-//         description: 'Biriyani',
-//       },
-//     ],
-//     income: [
-//       {
-//         id: 'uuid2',
-//         source: 'ClearTax',
-//         category: 'Salary',
-//         amount: 100000,
-//         date: Date(),
-//         description: 'Monthly Salary',
-//       },
-//     ],
-//   },
-// }
 
 const ExpenseScreen = ({ navigation, route }) => {
   const isFocused = useIsFocused()
@@ -43,7 +17,6 @@ const ExpenseScreen = ({ navigation, route }) => {
         },
         headerTintColor: 'white',
       })
-      console.log('Expense Screen -----------------------------', isFocused)
     }
   }, [isFocused])
   return (
