@@ -2,30 +2,41 @@ import { View, StyleSheet } from 'react-native'
 import DisplayBox from '../components/ui/molecules/DisplayBox'
 import { data } from '../dummyData'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import uuid from 'react-native-uuid'
+import {
+  deleteCategory,
+  insertCategory,
+  updateCategory,
+} from '../DB/categories'
+import ACTIONS from '../store/actions'
 
 const CategoriesScreen = () => {
-  const temp = useSelector((state) => state.categories)
-  console.log(temp)
-  const [categories, setCategories] = useState(data.categories)
-  const handleAddCategory = (category) => {
-    setCategories((prevState) => [...prevState, category])
+  const categories = useSelector((state) => state.categories)
+  const dispatch = useDispatch()
+  const handleAddCategory = async (category) => {
+    const addedItem = await insertCategory(uuid.v4(), category.name)
+    dispatch({ type: ACTIONS.CATEGORY.ADD, payload: addedItem })
   }
-  const handleEditCategory = (category) => {
-    setCategories((prevState) => {
-      const index = prevState.findIndex((item) => item.id === category.id)
-      const newState = [...prevState]
-      newState[index] = { ...category }
-      return newState
-    })
+  const handleEditCategory = async (category) => {
+    console.log(category)
+    const editedItem = await updateCategory(category.id, category.name)
+    dispatch({ type: ACTIONS.CATEGORY.UPDATE, payload: editedItem })
+    // setCategories((prevState) => {
+    //   const index = prevState.findIndex((item) => item.id === category.id)
+    //   const newState = [...prevState]
+    //   newState[index] = { ...category }
+    //   return newState
+    // })
   }
-  const handleDeleteCategory = (id) => {
-    setCategories((prevState) => prevState.filter((item) => item.id != id))
+  const handleDeleteCategory = async (id) => {
+    const deletedRowId = await deleteCategory(id)
+    dispatch({ type: ACTIONS.CATEGORY.DELETE, payload: id })
   }
   return (
     <View style={styles.screen}>
       <DisplayBox
-        list={temp}
+        list={categories}
         addItemText='Add Cateory'
         onAdd={handleAddCategory}
         onDelete={handleDeleteCategory}

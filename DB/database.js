@@ -4,7 +4,7 @@ import * as SQLite from 'expo-sqlite'
 export const db = SQLite.openDatabase('mydatabase4.db')
 
 // Function to execute a single SQL statement
-const executeSql = (sql, params = []) => {
+export const executeSql = (sql, params = []) => {
   return new Promise((resolve, reject) => {
     db.transaction((transaction) => {
       transaction.executeSql(
@@ -20,6 +20,8 @@ const executeSql = (sql, params = []) => {
 // Create tables if they don't exist
 export const initializeDatabase = async () => {
   try {
+    // await executeSql('DROP TABLE categories;')
+
     // Create sources table
     await executeSql(`
       CREATE TABLE IF NOT EXISTS sources (

@@ -76,7 +76,7 @@ export const fetchAllTransactions = () => {
     db.transaction((tx) => {
       tx.executeSql(
         `SELECT transactions.id, transactions.uuid, transactions.amount, transactions.description, 
-          sources.name AS sourceName, categories.name AS categoryName, modes.name AS modeName, 
+          sources.name AS source, categories.name AS category, modes.name AS mode, 
           transactions.date, transactions.createdAt, transactions.updatedAt 
         FROM transactions 
         INNER JOIN sources ON transactions.sourceId = sources.uuid 
