@@ -1,21 +1,44 @@
-import { Text, View, StyleSheet, Pressable } from 'react-native'
+import { Text, View, StyleSheet, Pressable, Alert } from 'react-native'
 import { GlobalStyles } from '../../../constants/styles'
 
-const Transaction = ({ type, data, backgroundColor = 'cyan' }) => {
+const Transaction = ({ type, data, onClick }) => {
+  const backgroundColor =
+    type === 'EXPENSE'
+      ? GlobalStyles.colors.expense.secondary
+      : GlobalStyles.colors.income.secondary
+
+  const day = String(data.date.getDate()).padStart(2, '0')
+  const month = String(data.date.getMonth() + 1).padStart(2, '0')
+  const year = String(data.date.getFullYear())
+
+  const handleClick = () => {
+    Alert.alert(
+      `Edit the transaction?`,
+      '',
+      [
+        {
+          text: 'Yes',
+          onPress: onClick,
+        },
+      ],
+      { cancelable: true }
+    )
+  }
   return (
     <View style={[styles.outerContainer, { backgroundColor: backgroundColor }]}>
-      <Pressable>
+      <Pressable onPress={handleClick}>
         <View style={styles.row}>
           <View>
-            <Text style={styles.text}>Source</Text>
+            <Text style={styles.text}>{data.source}</Text>
           </View>
-          <Text style={styles.text}>Amount</Text>
+          <Text style={styles.text}>{data.amount}</Text>
         </View>
         <View style={styles.row}>
           <View>
-            <Text style={styles.text}>Category</Text>
+            <Text style={styles.text}>{data.category}</Text>
           </View>
-          <Text style={styles.text}>Date</Text>
+          <Text style={styles.text}>{`${day}-${month}-${year}`}</Text>
+          {/* <Text style={styles.text}>{data.date.toISOString()}</Text> */}
         </View>
       </Pressable>
     </View>

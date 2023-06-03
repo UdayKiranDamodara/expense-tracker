@@ -2,8 +2,11 @@ import { View, StyleSheet } from 'react-native'
 import DisplayBox from '../components/ui/molecules/DisplayBox'
 import { data } from '../dummyData'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const CategoriesScreen = () => {
+  const temp = useSelector((state) => state.categories)
+  console.log(temp)
   const [categories, setCategories] = useState(data.categories)
   const handleAddCategory = (category) => {
     setCategories((prevState) => [...prevState, category])
@@ -22,7 +25,7 @@ const CategoriesScreen = () => {
   return (
     <View style={styles.screen}>
       <DisplayBox
-        list={categories}
+        list={temp}
         addItemText='Add Cateory'
         onAdd={handleAddCategory}
         onDelete={handleDeleteCategory}

@@ -1,13 +1,14 @@
-import { Text, View } from 'react-native'
-import Transaction from '../components/ui/molecules/Transaction'
+import { Modal, View } from 'react-native'
 import { GlobalStyles } from '../constants/styles'
 import TransactionList from '../components/ui/molecules/TransactionList'
-import { useEffect, useLayoutEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
+import TransactionModal from '../components/ui/molecules/TransactionModal'
 
 const { data } = require('../dummyData.js')
 
 const ExpenseScreen = ({ navigation, route }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false)
   const isFocused = useIsFocused()
   useLayoutEffect(() => {
     if (isFocused) {
@@ -19,12 +20,19 @@ const ExpenseScreen = ({ navigation, route }) => {
       })
     }
   }, [isFocused])
+  const setModalVisible = () => {
+    setIsModalVisible(true)
+  }
   return (
     <View>
       <TransactionList
         data={data.transactions.expense}
-        itemBGColor={GlobalStyles.colors.expense.secondary}
+        type='EXPENSE'
+        onClickItem={setModalVisible}
       />
+      <Modal visible={isModalVisible}>
+        <TransactionModal />
+      </Modal>
     </View>
   )
 }

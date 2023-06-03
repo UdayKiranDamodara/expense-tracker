@@ -20,10 +20,7 @@ const IncomeScreen = ({ navigation, route }) => {
   }, [isFocused])
   return (
     <View>
-      <TransactionList
-        data={data.transactions.expense}
-        itemBGColor={GlobalStyles.colors.income.secondary}
-      />
+      <TransactionList data={data.transactions.income} type='INCOME' />
     </View>
   )
 }
