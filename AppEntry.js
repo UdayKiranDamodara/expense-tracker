@@ -19,6 +19,7 @@ import AppLoading from 'expo-app-loading'
 import { fetchAllData } from './utils/db'
 import { useDispatch } from 'react-redux'
 import ModesScreen from './screens/ModesScreen'
+import ACTIONS from './store/actions'
 
 const Drawer = createDrawerNavigator()
 const Stack = createNativeStackNavigator()
@@ -69,8 +70,9 @@ export default function App() {
         await initializeDatabase()
         const { transactions, entities, categories, modes } =
           await fetchAllData()
-        dispatch({ type: 'INITIALIZE_CATEGORIES', payload: categories })
-        dispatch({ type: 'INITIALIZE_MODES', payload: modes })
+        dispatch({ type: ACTIONS.CATEGORY.INITIALIZE, payload: categories })
+        dispatch({ type: ACTIONS.MODE.INITIALIZE, payload: modes })
+        dispatch({ type: ACTIONS.ENTITY.INITIALIZE, payload: entities })
         setDbInitialized(true)
       } catch (error) {
         console.log('INITIALIZATION FAILED', error)

@@ -1,46 +1,52 @@
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import DisplayBox from '../components/ui/molecules/DisplayBox'
+import { insertSource, updateSource, deleteSource } from '../DB/entities'
+import { useDispatch, useSelector } from 'react-redux'
+import ACTIONS from '../store/actions'
+import uuid from 'react-native-uuid'
+
 import { useState } from 'react'
 const { data } = require('../dummyData')
 
 const height = Dimensions.get('window').height
+const ENTITY_TYPE = {
+  USER: 'USER',
+  ORGANISATION: 'ORGANISATION',
+}
 
 const UsersScreen = () => {
-  const [users, setUsers] = useState(data.entities.users)
-  const [orgs, setOrgs] = useState(data.entities.orgs)
-  const handleAddUser = (user) => {
-    setUsers((prevState) => [...prevState, user])
+  const entities = useSelector((state) => state.entities)
+  const dispatch = useDispatch()
+
+  const users = entities.filter((item) => item.type === ENTITY_TYPE.USER)
+  const orgs = entities.filter((item) => item.type === ENTITY_TYPE.ORGANISATION)
+  console.log({ users, orgs })
+
+  const handleAddUser = async (user) => {
+    const addedItem = await insertSource(uuid.v4(), user.name, ENTITY_TYPE.USER)
+    dispatch({ type: ACTIONS.ENTITY.ADD, payload: addedItem })
   }
-  const handleAddOrg = (org) => {
-    setUsers((prevState) => [...prevState, org])
+
+  const handleAddOrg = async (org) => {
+    const addedItem = await insertSource(
+      uuid.v4(),
+      org.name,
+      ENTITY_TYPE.ORGANISATION
+    )
+    dispatch({ type: ACTIONS.ENTITY.ADD, payload: addedItem })
   }
-  const handleEditUser = (user) => {
-    setUsers((prevState) => {
-      const index = prevState.findIndex((item) => item.id === user.id)
-      const newState = [...prevState]
-      newState[index] = { ...user }
-      return newState
-    })
+
+  const handleEditEntity = async (entity) => {
+    console.log(entity)
+    const editedItem = await updateSource(entity.id, entity.name)
+    dispatch({ type: ACTIONS.ENTITY.UPDATE, payload: editedItem })
   }
-  const handleEditOrg = (org) => {
-    setOrgs((prevState) => {
-      const index = prevState.findIndex((item) => item.id === org.id)
-      const newState = [...prevState]
-      newState[index] = { ...org }
-      return newState
-    })
+
+  const handleDeleteEntity = async (id) => {
+    const deletedRowId = await deleteSource(id)
+    dispatch({ type: ACTIONS.ENTITY.DELETE, payload: id })
   }
-  const handleDeleteUser = (id) => {
-    setUsers((prevState) => prevState.filter((item) => item.id != id))
-  }
-  const handleDeleteOrg = (id) => {
-    setOrgs((prevState) => prevState.filter((item) => item.id != id))
-  }
+
   return (
     <View style={styles.screen}>
       <View style={styles.item}>
@@ -48,8 +54,8 @@ const UsersScreen = () => {
           title='Users'
           list={users}
           addItemText='Add User'
-          onEdit={handleEditUser}
-          onDelete={handleDeleteUser}
+          onEdit={handleEditEntity}
+          onDelete={handleDeleteEntity}
           onAdd={handleAddUser}
         />
       </View>
@@ -58,8 +64,8 @@ const UsersScreen = () => {
           title='Organisations'
           list={orgs}
           addItemText='Add Organisation'
-          onEdit={handleEditOrg}
-          onDelete={handleDeleteOrg}
+          onEdit={handleEditEntity}
+          onDelete={handleDeleteEntity}
           onAdd={handleAddOrg}
         />
       </View>
