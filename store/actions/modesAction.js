@@ -1,0 +1,6 @@
+export const modeActions = {
+  INITIALIZE: 'INITIALIZE_MODES',
+  ADD: 'ADD_MODE',
+  DELETE: 'DELETE_MODE',
+  UPDATE: 'UPDATE_MODE',
+}

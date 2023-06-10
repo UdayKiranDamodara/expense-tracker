@@ -1,0 +1,6 @@
+export const entityActions = {
+  INITIALIZE: 'INITIALIZE_ENTITIES',
+  ADD: 'ADD_ENTITY',
+  DELETE: 'DELETE_ENTITY',
+  UPDATE: 'UPDATE_ENTITY',
+}

@@ -18,6 +18,7 @@ import { initializeDatabase } from './DB/database'
 import AppLoading from 'expo-app-loading'
 import { fetchAllData } from './utils/db'
 import { useDispatch } from 'react-redux'
+import ModesScreen from './screens/ModesScreen'
 
 const Drawer = createDrawerNavigator()
 const Stack = createNativeStackNavigator()
@@ -69,6 +70,7 @@ export default function App() {
         const { transactions, entities, categories, modes } =
           await fetchAllData()
         dispatch({ type: 'INITIALIZE_CATEGORIES', payload: categories })
+        dispatch({ type: 'INITIALIZE_MODES', payload: modes })
         setDbInitialized(true)
       } catch (error) {
         console.log('INITIALIZATION FAILED', error)
@@ -98,6 +100,16 @@ export default function App() {
           <Drawer.Screen
             name='Categories'
             component={CategoriesScreen}
+            options={{
+              headerStyle: {
+                backgroundColor: GlobalStyles.colors.category.primary,
+              },
+              headerTintColor: 'white',
+            }}
+          />
+          <Drawer.Screen
+            name='Modes'
+            component={ModesScreen}
             options={{
               headerStyle: {
                 backgroundColor: GlobalStyles.colors.category.primary,

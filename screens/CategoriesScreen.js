@@ -1,7 +1,5 @@
 import { View, StyleSheet } from 'react-native'
 import DisplayBox from '../components/ui/molecules/DisplayBox'
-import { data } from '../dummyData'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import uuid from 'react-native-uuid'
 import {
@@ -22,12 +20,6 @@ const CategoriesScreen = () => {
     console.log(category)
     const editedItem = await updateCategory(category.id, category.name)
     dispatch({ type: ACTIONS.CATEGORY.UPDATE, payload: editedItem })
-    // setCategories((prevState) => {
-    //   const index = prevState.findIndex((item) => item.id === category.id)
-    //   const newState = [...prevState]
-    //   newState[index] = { ...category }
-    //   return newState
-    // })
   }
   const handleDeleteCategory = async (id) => {
     const deletedRowId = await deleteCategory(id)
